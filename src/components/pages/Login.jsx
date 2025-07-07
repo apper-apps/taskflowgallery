@@ -12,8 +12,18 @@ function Login() {
   useEffect(() => {
     if (isInitialized) {
       // Show login UI in this component
-      const { ApperUI } = window.ApperSDK;
-      ApperUI.showLogin("#authentication");
+try {
+        const authElement = document.getElementById('authentication');
+        if (!authElement) {
+          console.error('Authentication element not found in DOM');
+          return;
+        }
+        
+        const { ApperUI } = window.ApperSDK;
+        ApperUI.showLogin("#authentication");
+      } catch (error) {
+        console.error('Failed to initialize login UI:', error);
+      }
     }
   }, [isInitialized]);
   
