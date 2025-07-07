@@ -32,7 +32,7 @@ export const taskService = {
         throw new Error(response.message);
       }
 
-      // Map database fields to UI format
+// Map database fields to UI format
       return response.data.map(task => ({
         Id: task.Id,
         title: task.title || task.Name,
@@ -40,7 +40,7 @@ export const taskService = {
         categoryId: task.category_id || '',
         priority: task.priority || 'medium',
         dueDate: task.due_date || null,
-        completed: task.completed || false,
+        completed: !!(task.completed && task.completed.trim()), // Convert string to boolean for UI
         completedAt: task.completed_at || null,
         createdAt: task.created_at || task.CreatedOn,
         order: task.order || 0
@@ -82,14 +82,14 @@ export const taskService = {
       }
 
       const task = response.data;
-      return {
+return {
         Id: task.Id,
         title: task.title || task.Name,
         description: task.description || '',
         categoryId: task.category_id || '',
         priority: task.priority || 'medium',
         dueDate: task.due_date || null,
-        completed: task.completed || false,
+        completed: !!(task.completed && task.completed.trim()), // Convert string to boolean for UI
         completedAt: task.completed_at || null,
         createdAt: task.created_at || task.CreatedOn,
         order: task.order || 0
@@ -110,13 +110,13 @@ export const taskService = {
 
       // Only include Updateable fields
       const params = {
-        records: [{
+records: [{
           Name: taskData.title,
           title: taskData.title,
           description: taskData.description || '',
           priority: taskData.priority || 'medium',
           due_date: taskData.dueDate || null,
-          completed: false,
+          completed: "", // Checkbox fields require string format - empty string for unchecked
           completed_at: null,
           created_at: new Date().toISOString(),
           order: Date.now(),
@@ -139,7 +139,7 @@ export const taskService = {
           throw new Error(failedRecords[0].message || 'Failed to create task');
         }
 
-        const successfulRecord = response.results.find(result => result.success);
+const successfulRecord = response.results.find(result => result.success);
         if (successfulRecord) {
           const task = successfulRecord.data;
           return {
@@ -149,7 +149,7 @@ export const taskService = {
             categoryId: task.category_id || '',
             priority: task.priority || 'medium',
             dueDate: task.due_date || null,
-            completed: task.completed || false,
+            completed: !!(task.completed && task.completed.trim()), // Convert string to boolean for UI
             completedAt: task.completed_at || null,
             createdAt: task.created_at || task.CreatedOn,
             order: task.order || 0
@@ -174,7 +174,7 @@ export const taskService = {
 
       // Only include Updateable fields
       const updateData = {
-        Id: id
+Id: id
       };
 
       if (updates.title !== undefined) {
@@ -184,11 +184,13 @@ export const taskService = {
       if (updates.description !== undefined) updateData.description = updates.description;
       if (updates.priority !== undefined) updateData.priority = updates.priority;
       if (updates.dueDate !== undefined) updateData.due_date = updates.dueDate;
-      if (updates.completed !== undefined) updateData.completed = updates.completed;
+      if (updates.completed !== undefined) {
+        // Convert boolean to string format for Checkbox fields
+        updateData.completed = updates.completed ? "completed" : "";
+      }
       if (updates.completedAt !== undefined) updateData.completed_at = updates.completedAt;
       if (updates.order !== undefined) updateData.order = updates.order;
       if (updates.categoryId !== undefined) updateData.category_id = updates.categoryId ? parseInt(updates.categoryId) : null;
-
       const params = {
         records: [updateData]
       };
@@ -208,7 +210,7 @@ export const taskService = {
           throw new Error(failedRecords[0].message || 'Failed to update task');
         }
 
-        const successfulRecord = response.results.find(result => result.success);
+const successfulRecord = response.results.find(result => result.success);
         if (successfulRecord) {
           const task = successfulRecord.data;
           return {
@@ -218,7 +220,7 @@ export const taskService = {
             categoryId: task.category_id || '',
             priority: task.priority || 'medium',
             dueDate: task.due_date || null,
-            completed: task.completed || false,
+            completed: !!(task.completed && task.completed.trim()), // Convert string to boolean for UI
             completedAt: task.completed_at || null,
             createdAt: task.created_at || task.CreatedOn,
             order: task.order || 0
