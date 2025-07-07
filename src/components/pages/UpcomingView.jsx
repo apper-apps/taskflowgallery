@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
-import { isAfter, startOfDay, format, isThisWeek, isNextWeek } from 'date-fns';
+import { isAfter, startOfDay, format, isThisWeek, addWeeks, startOfWeek } from 'date-fns';
 import TaskList from '@/components/organisms/TaskList';
 import ApperIcon from '@/components/ApperIcon';
 import { useTasks } from '@/hooks/useTasks';
@@ -35,8 +35,18 @@ const UpcomingView = () => {
     filtered.forEach(task => {
       const dueDate = new Date(task.dueDate);
       if (isThisWeek(dueDate)) {
-        thisWeek.push(task);
-      } else if (isNextWeek(dueDate)) {
+thisWeek.push(task);
+      } else if (isThisWeek(dueDate, { weekStartsOn: 1 }) && isAfter(dueDate, addWeeks(startOfWeek(new Date(), { weekStartsOn: 1 }), 0))) {
+        // Check if date is in next week by comparing with next week's start
+        const nextWeekStart = addWeeks(startOfWeek(new Date(), { weekStartsOn: 1 }), 1);
+        const nextWeekEnd = addWeeks(nextWeekStart, 1);
+        if (isAfter(dueDate, nextWeekStart) && !isAfter(dueDate, nextWeekEnd)) {
+          nextWeek.push(task);
+        } else {
+          later.push(task);
+        }
+      } else if (isThisWeek(addWeeks(dueDate, -1), { weekStartsOn: 1 })) {
+        // Alternative approach: check if date is in next week
         nextWeek.push(task);
       } else {
         later.push(task);
