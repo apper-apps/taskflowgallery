@@ -4,13 +4,58 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TaskFlow - Organize Your Tasks</title>
+    <title>TaskFlow - Smart Task Management</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Apper SDK with proper error handling and DOM ready checks -->
+    <script>
+      // Ensure DOM is fully ready before SDK initialization
+      function initializeApperSDK() {
+        try {
+          // Check if viewport has proper dimensions
+          if (window.innerWidth === 0 || window.innerHeight === 0) {
+            console.warn('Viewport dimensions not ready, delaying SDK initialization');
+            setTimeout(initializeApperSDK, 100);
+            return;
+          }
+          
+          // Load Apper SDK
+          const script = document.createElement('script');
+          script.src = 'https://cdn.apper.io/v1/apper-sdk.v1.js';
+          script.async = true;
+          script.defer = true;
+          
+          script.onload = function() {
+            console.log('Apper SDK loaded successfully');
+            // Additional initialization can go here
+          };
+          
+          script.onerror = function(error) {
+            console.error('Failed to load Apper SDK:', error);
+            // Graceful fallback - app should still work without SDK
+          };
+          
+          document.head.appendChild(script);
+        } catch (error) {
+          console.error('Error initializing Apper SDK:', error);
+          // Continue without SDK if initialization fails
+        }
+      }
+      
+      // Initialize after DOM is completely ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeApperSDK);
+      } else {
+        // DOM is already ready
+        setTimeout(initializeApperSDK, 0);
+      }
+    </script>
   </body>
+</html>
 </html>
