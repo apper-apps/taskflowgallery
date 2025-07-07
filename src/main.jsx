@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
 
@@ -52,12 +53,14 @@ function initializeApp() {
     }
 
     // Initialize React app with error boundary
-    const root = ReactDOM.createRoot(rootElement);
+const root = ReactDOM.createRoot(rootElement);
     root.render(
       <React.StrictMode>
-        <ApperSDKErrorBoundary>
-          <App />
-        </ApperSDKErrorBoundary>
+        <BrowserRouter>
+          <ApperSDKErrorBoundary>
+            <App />
+          </ApperSDKErrorBoundary>
+        </BrowserRouter>
       </React.StrictMode>
     );
 
