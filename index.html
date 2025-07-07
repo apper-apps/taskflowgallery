@@ -14,107 +14,12 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
-    <script>
-      // Enhanced SDK initialization with viewport validation
-      function validateViewport() {
-        return new Promise((resolve) => {
-          const checkDimensions = () => {
-            const viewport = {
-              width: window.innerWidth || document.documentElement.clientWidth,
-              height: window.innerHeight || document.documentElement.clientHeight
-            };
-            
-            // Ensure viewport has valid dimensions
-            if (viewport.width > 0 && viewport.height > 0) {
-              resolve(viewport);
-            } else {
-              setTimeout(checkDimensions, 50);
-            }
-          };
-          checkDimensions();
-        });
-      }
-
-      async function initializeApperSDK() {
-        try {
-          // Wait for viewport to have valid dimensions
-          await validateViewport();
-          
-          // Additional delay to ensure canvas elements are properly initialized
-          await new Promise(resolve => setTimeout(resolve, 200));
-          
-          if (typeof window.ApperSDK !== 'undefined') {
-            // Override canvas operations with error handling
-            const originalDrawImage = CanvasRenderingContext2D.prototype.drawImage;
-            CanvasRenderingContext2D.prototype.drawImage = function(...args) {
-              try {
-                // Validate canvas dimensions before drawing
-                const canvas = args[0];
-                if (canvas && canvas.tagName === 'CANVAS') {
-                  if (canvas.width === 0 || canvas.height === 0) {
-                    console.warn('Skipping drawImage: Canvas has zero dimensions');
-                    return;
-                  }
-                }
-                return originalDrawImage.apply(this, args);
-              } catch (error) {
-                console.error('Canvas drawImage error prevented:', error);
-              }
-            };
-            
-            window.ApperSDK.init({
-              apiKey: 'your-api-key-here',
-              environment: 'development',
-              // Add canvas-specific options
-              captureOptions: {
-                validateDimensions: true,
-                minWidth: 1,
-                minHeight: 1
-              }
-            });
-            console.log('Apper SDK initialized successfully');
-          } else {
-            console.warn('Apper SDK not loaded');
-          }
-        } catch (error) {
-          console.error('Error initializing Apper SDK:', error);
-        }
-      }
-
-      // Enhanced DOM ready detection
-      function onDOMReady() {
-        // Ensure both DOM and layout are ready
-        if (document.readyState === 'complete') {
-          initializeApperSDK();
-        } else {
-          window.addEventListener('load', initializeApperSDK);
-        }
-      }
-
-      // Initialize when DOM is ready
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', onDOMReady);
-      } else {
-        onDOMReady();
-      }
-    </script>
-    
-    <!-- Apper SDK with enhanced error handling -->
-    <script 
-      src="https://cdn.apper.io/apper-dev-script/index.umd.js"
-      onload="console.log('Apper SDK script loaded')"
-      onerror="console.error('Failed to load Apper SDK script')"
-      async
-    ></script>
-  </body>
-</html>
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeApperSDK);
-      } else {
-        // DOM is already ready
-        setTimeout(initializeApperSDK, 0);
-      }
-    </script>
+<!-- Apper SDK -->
+    <script src="%VITE_APPER_SDK_CDN_URL%"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
 </html>
