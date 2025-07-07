@@ -38,6 +38,51 @@ class ApperSDKErrorBoundary extends React.Component {
 }
 
 // Ensure DOM is ready and viewport has proper dimensions
+function initializeApperSDK() {
+  return new Promise((resolve, reject) => {
+    try {
+      // Check if SDK is available
+      if (!window.ApperSDK) {
+        reject(new Error('Apper SDK not loaded'));
+        return;
+      }
+
+      const { ApperClient, ApperUI } = window.ApperSDK;
+      
+      if (!ApperClient || !ApperUI) {
+        reject(new Error('ApperClient or ApperUI not available'));
+        return;
+      }
+
+      // Initialize ApperClient with credentials
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+
+      // Setup ApperUI for authentication
+      ApperUI.setup(apperClient, {
+        target: '#authentication',
+        clientId: import.meta.env.VITE_APPER_PROJECT_ID,
+        view: 'both',
+        onSuccess: function (user) {
+          console.log('Apper SDK initialized successfully', user ? 'with user' : 'without user');
+          resolve({ client: apperClient, ui: ApperUI, user });
+        },
+        onError: function(error) {
+          console.error("Apper SDK authentication error:", error);
+          // Don't reject here - authentication errors are handled by the auth flow
+          resolve({ client: apperClient, ui: ApperUI, user: null });
+        }
+      });
+
+    } catch (error) {
+      console.error('Error initializing Apper SDK:', error);
+      reject(error);
+    }
+  });
+}
+
 function initializeApp() {
   try {
     const rootElement = document.getElementById('root');
@@ -53,19 +98,42 @@ function initializeApp() {
       return;
     }
 
-    // Initialize React app with error boundary
-const root = ReactDOM.createRoot(rootElement);
-    root.render(
-      <React.StrictMode>
-        <Provider store={store}>
-          <BrowserRouter>
-            <ApperSDKErrorBoundary>
-              <App />
-            </ApperSDKErrorBoundary>
-          </BrowserRouter>
-        </Provider>
-      </React.StrictMode>
-    );
+    // Initialize Apper SDK first, then React app
+    initializeApperSDK()
+      .then(() => {
+        console.log('SDK initialized, starting React app');
+        
+        // Initialize React app with error boundary
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          <React.StrictMode>
+            <Provider store={store}>
+              <BrowserRouter>
+                <ApperSDKErrorBoundary>
+                  <App />
+                </ApperSDKErrorBoundary>
+              </BrowserRouter>
+            </Provider>
+          </React.StrictMode>
+        );
+      })
+      .catch((error) => {
+        console.error('Failed to initialize Apper SDK:', error);
+        
+        // Fallback: Initialize React app without SDK
+        const root = ReactDOM.createRoot(rootElement);
+        root.render(
+          <React.StrictMode>
+            <Provider store={store}>
+              <BrowserRouter>
+                <ApperSDKErrorBoundary>
+                  <App />
+                </ApperSDKErrorBoundary>
+              </BrowserRouter>
+            </Provider>
+          </React.StrictMode>
+        );
+      });
 
     // Add global error handler for unhandled canvas errors
     window.addEventListener('error', (event) => {
