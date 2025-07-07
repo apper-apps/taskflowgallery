@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "name": "Work",
+    "color": "#5B21B6",
+    "icon": "Briefcase",
+    "order": 1,
+    "taskCount": 3,
+    "completedCount": 0
+  },
+  {
+    "Id": 2,
+    "name": "Development",
+    "color": "#3B82F6",
+    "icon": "Code",
+    "order": 2,
+    "taskCount": 3,
+    "completedCount": 0
+  },
+  {
+    "Id": 3,
+    "name": "Meetings",
+    "color": "#10B981",
+    "icon": "Users",
+    "order": 3,
+    "taskCount": 1,
+    "completedCount": 1
+  },
+  {
+    "Id": 4,
+    "name": "Personal",
+    "color": "#F59E0B",
+    "icon": "Heart",
+    "order": 4,
+    "taskCount": 2,
+    "completedCount": 1
+  }
+]
