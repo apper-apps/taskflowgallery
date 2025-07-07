@@ -6,16 +6,16 @@ export function useTasks() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const loadTasks = async () => {
+const loadTasks = async () => {
     try {
       setLoading(true);
       setError('');
-      await new Promise(resolve => setTimeout(resolve, 300));
       const data = await taskService.getAll();
-      setTasks(data);
+      setTasks(data || []);
     } catch (err) {
       setError('Failed to load tasks. Please try again.');
       console.error('Error loading tasks:', err);
+      setTasks([]);
     } finally {
       setLoading(false);
     }
@@ -25,7 +25,7 @@ export function useTasks() {
     loadTasks();
   }, []);
 
-  const addTask = async (taskData) => {
+const addTask = async (taskData) => {
     try {
       const newTask = await taskService.create(taskData);
       setTasks(prev => [newTask, ...prev]);
@@ -36,7 +36,7 @@ export function useTasks() {
     }
   };
 
-  const updateTask = async (id, updates) => {
+const updateTask = async (id, updates) => {
     try {
       const updatedTask = await taskService.update(id, updates);
       setTasks(prev => prev.map(task => 
@@ -49,7 +49,7 @@ export function useTasks() {
     }
   };
 
-  const deleteTask = async (id) => {
+const deleteTask = async (id) => {
     try {
       await taskService.delete(id);
       setTasks(prev => prev.filter(task => task.Id !== id));
@@ -59,7 +59,7 @@ export function useTasks() {
     }
   };
 
-  const toggleComplete = async (id) => {
+const toggleComplete = async (id) => {
     const task = tasks.find(t => t.Id === id);
     if (!task) return;
 

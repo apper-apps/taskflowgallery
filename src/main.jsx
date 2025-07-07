@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import { store } from '@/store/store'
 import App from './App.jsx'
 import './index.css'
-
 // Error boundary for SDK-related errors
 class ApperSDKErrorBoundary extends React.Component {
   constructor(props) {
@@ -56,11 +57,13 @@ function initializeApp() {
 const root = ReactDOM.createRoot(rootElement);
     root.render(
       <React.StrictMode>
-        <BrowserRouter>
-          <ApperSDKErrorBoundary>
-            <App />
-          </ApperSDKErrorBoundary>
-        </BrowserRouter>
+        <Provider store={store}>
+          <BrowserRouter>
+            <ApperSDKErrorBoundary>
+              <App />
+            </ApperSDKErrorBoundary>
+          </BrowserRouter>
+        </Provider>
       </React.StrictMode>
     );
 

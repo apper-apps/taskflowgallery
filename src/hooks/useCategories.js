@@ -6,16 +6,16 @@ export function useCategories() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const loadCategories = async () => {
+const loadCategories = async () => {
     try {
       setLoading(true);
       setError('');
-      await new Promise(resolve => setTimeout(resolve, 200));
       const data = await categoryService.getAll();
-      setCategories(data);
+      setCategories(data || []);
     } catch (err) {
       setError('Failed to load categories. Please try again.');
       console.error('Error loading categories:', err);
+      setCategories([]);
     } finally {
       setLoading(false);
     }
@@ -25,7 +25,7 @@ export function useCategories() {
     loadCategories();
   }, []);
 
-  const addCategory = async (categoryData) => {
+const addCategory = async (categoryData) => {
     try {
       const newCategory = await categoryService.create(categoryData);
       setCategories(prev => [...prev, newCategory]);
@@ -36,7 +36,7 @@ export function useCategories() {
     }
   };
 
-  const updateCategory = async (id, updates) => {
+const updateCategory = async (id, updates) => {
     try {
       const updatedCategory = await categoryService.update(id, updates);
       setCategories(prev => prev.map(category => 
@@ -49,7 +49,7 @@ export function useCategories() {
     }
   };
 
-  const deleteCategory = async (id) => {
+const deleteCategory = async (id) => {
     try {
       await categoryService.delete(id);
       setCategories(prev => prev.filter(category => category.Id !== id));
