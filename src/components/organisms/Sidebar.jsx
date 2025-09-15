@@ -11,6 +11,7 @@ const navigation = [
     { name: 'Upcoming', href: '/upcoming', icon: 'Clock', count: stats.upcomingTasks || 0 },
     { name: 'Categories', href: '/categories', icon: 'Folder', count: stats.categories || 0 },
     { name: 'Projects', href: '/projects', icon: 'ClipboardList', count: stats.projects || 0 },
+    { name: 'Subtasks', href: '/subtasks', icon: 'ListChecks', count: stats.subtasks || 0 },
     { name: 'Completed', href: '/completed', icon: 'CheckCircle', count: stats.completedTasks || 0 },
   ];
 

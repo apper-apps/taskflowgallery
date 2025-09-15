@@ -21,6 +21,8 @@ switch (location.pathname) {
         return 'Categories';
       case '/projects':
         return 'Projects';
+      case '/subtasks':
+        return 'Subtasks';
       case '/completed':
         return 'Completed';
       default:

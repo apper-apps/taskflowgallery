@@ -10,6 +10,7 @@ import UpcomingView from '@/components/pages/UpcomingView';
 import CategoriesView from '@/components/pages/CategoriesView';
 import CompletedView from '@/components/pages/CompletedView';
 import ProjectsView from '@/components/pages/ProjectsView';
+import SubTasksView from '@/components/pages/SubTasksView';
 import Login from '@/components/pages/Login';
 import Signup from '@/components/pages/Signup';
 import Callback from '@/components/pages/Callback';
@@ -133,8 +134,9 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="/today" element={<TodayView />} />
             <Route path="/upcoming" element={<UpcomingView />} />
-            <Route path="/categories" element={<CategoriesView />} />
+<Route path="/categories" element={<CategoriesView />} />
             <Route path="/projects" element={<ProjectsView />} />
+            <Route path="/subtasks" element={<SubTasksView />} />
             <Route path="/completed" element={<CompletedView />} />
           </Route>
         </Routes>
