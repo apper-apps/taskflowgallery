@@ -286,12 +286,13 @@ useEffect(() => {
     
     if (!validateForm()) return;
 
-    setIsSubmitting(true);
+setIsSubmitting(true);
     
-try {
+    try {
       const projectData = {
-        projectName: formData.name,
-        description: formData.description,
+        name: formData.name.trim(),
+        projectName: formData.name.trim(),
+        description: formData.description.trim(),
         startDate: formData.startDate || null,
         endDate: formData.endDate || null,
       };
@@ -321,104 +322,104 @@ try {
     }
   };
 
-  if (!isOpen) return null;
+if (!isOpen) return null;
 
-return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="absolute inset-0 bg-black/50"
-          onClick={onClose}
-        />
-        
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-md bg-white rounded-xl shadow-xl"
-        >
-          {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200">
-            <h2 className="text-xl font-semibold text-gray-900">
-              {project ? 'Edit Project' : 'Create New Project'}
-            </h2>
-            <button
+  return (
+<div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/50"
+        onClick={onClose}
+      />
+      
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.9, y: 20 }}
+        className="relative w-full max-w-md bg-white rounded-xl shadow-xl"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-900">
+            {project ? 'Edit Project' : 'Create New Project'}
+          </h2>
+          <button
+            onClick={onClose}
+            className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <ApperIcon name="X" size={20} />
+          </button>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <Input
+            label="Project Name"
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
+            error={errors.name}
+            placeholder="Enter project name..."
+            required
+          />
+
+          <Textarea
+            label="Description"
+            value={formData.description}
+            onChange={(e) => handleChange('description', e.target.value)}
+            placeholder="Add project description..."
+            rows={3}
+          />
+
+          <Input
+            label="Start Date"
+            type="date"
+            value={formData.startDate}
+            onChange={(e) => handleChange('startDate', e.target.value)}
+          />
+
+          <Input
+            label="End Date"
+            type="date"
+            value={formData.endDate}
+            onChange={(e) => handleChange('endDate', e.target.value)}
+            error={errors.endDate}
+          />
+
+          {/* Actions */}
+          <div className="flex gap-3 pt-4">
+            <Button
+              type="button"
+              variant="secondary"
               onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex-1"
             >
-              <ApperIcon name="X" size={20} />
-            </button>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              disabled={isSubmitting}
+              className="flex-1"
+            >
+              {isSubmitting ? (
+                <>
+                  <ApperIcon name="Loader2" size={16} className="animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                <>
+                  <ApperIcon name="Save" size={16} />
+                  {project ? 'Update' : 'Create'}
+                </>
+              )}
+            </Button>
           </div>
-
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            <Input
-              label="Project Name"
-              value={formData.name}
-              onChange={(e) => handleChange('name', e.target.value)}
-              error={errors.name}
-              placeholder="Enter project name..."
-              required
-            />
-
-            <Textarea
-              label="Description"
-              value={formData.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-              placeholder="Add project description..."
-              rows={3}
-            />
-
-            <Input
-              label="Start Date"
-              type="date"
-              value={formData.startDate}
-              onChange={(e) => handleChange('startDate', e.target.value)}
-            />
-
-            <Input
-              label="End Date"
-              type="date"
-              value={formData.endDate}
-              onChange={(e) => handleChange('endDate', e.target.value)}
-              error={errors.endDate}
-            />
-
-            {/* Actions */}
-            <div className="flex gap-3 pt-4">
-              <Button
-                type="button"
-                variant="secondary"
-                onClick={onClose}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="primary"
-                disabled={isSubmitting}
-                className="flex-1"
-              >
-                {isSubmitting ? (
-                  <>
-                    <ApperIcon name="Loader2" size={16} className="animate-spin" />
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    <ApperIcon name="Save" size={16} />
-                    {project ? 'Update' : 'Create'}
-                  </>
-                )}
-              </Button>
-            </div>
-</form>
-        </motion.div>
-      </div>
-    );
+        </form>
+      </motion.div>
+    </div>
+  );
 };
 
 export default ProjectsView;
