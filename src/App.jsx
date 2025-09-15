@@ -9,13 +9,13 @@ import TodayView from '@/components/pages/TodayView';
 import UpcomingView from '@/components/pages/UpcomingView';
 import CategoriesView from '@/components/pages/CategoriesView';
 import CompletedView from '@/components/pages/CompletedView';
+import ProjectsView from '@/components/pages/ProjectsView';
 import Login from '@/components/pages/Login';
 import Signup from '@/components/pages/Signup';
 import Callback from '@/components/pages/Callback';
 import ErrorPage from '@/components/pages/ErrorPage';
 import ResetPassword from '@/components/pages/ResetPassword';
 import PromptPassword from '@/components/pages/PromptPassword';
-
 // Create auth context
 export const AuthContext = createContext(null);
 
@@ -129,11 +129,12 @@ function App() {
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-          <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="/today" element={<TodayView />} />
             <Route path="/upcoming" element={<UpcomingView />} />
             <Route path="/categories" element={<CategoriesView />} />
+            <Route path="/projects" element={<ProjectsView />} />
             <Route path="/completed" element={<CompletedView />} />
           </Route>
         </Routes>

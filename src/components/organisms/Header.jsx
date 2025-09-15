@@ -10,7 +10,7 @@ const Header = ({ onSearch, onQuickAdd, onMenuToggle }) => {
   const [searchValue, setSearchValue] = useState('');
 
   const getPageTitle = () => {
-    switch (location.pathname) {
+switch (location.pathname) {
       case '/':
         return 'All Tasks';
       case '/today':
@@ -19,6 +19,8 @@ const Header = ({ onSearch, onQuickAdd, onMenuToggle }) => {
         return 'Upcoming';
       case '/categories':
         return 'Categories';
+      case '/projects':
+        return 'Projects';
       case '/completed':
         return 'Completed';
       default:

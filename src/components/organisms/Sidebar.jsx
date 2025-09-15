@@ -5,11 +5,12 @@ import ApperIcon from '@/components/ApperIcon';
 import ProgressRing from '@/components/molecules/ProgressRing';
 
 const Sidebar = ({ isOpen, onClose, stats = {} }) => {
-  const navigation = [
+const navigation = [
     { name: 'All Tasks', href: '/', icon: 'CheckSquare', count: stats.totalTasks || 0 },
     { name: 'Today', href: '/today', icon: 'Calendar', count: stats.todayTasks || 0 },
     { name: 'Upcoming', href: '/upcoming', icon: 'Clock', count: stats.upcomingTasks || 0 },
     { name: 'Categories', href: '/categories', icon: 'Folder', count: stats.categories || 0 },
+    { name: 'Projects', href: '/projects', icon: 'ClipboardList', count: stats.projects || 0 },
     { name: 'Completed', href: '/completed', icon: 'CheckCircle', count: stats.completedTasks || 0 },
   ];
 
