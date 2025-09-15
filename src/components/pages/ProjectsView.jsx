@@ -112,13 +112,9 @@ const { searchQuery, setProjectCreateHandler } = useOutletContext();
   }
 // Expose handleCreate function to Layout for header button
   useEffect(() => {
-    if (setProjectCreateHandler) {
-      setProjectCreateHandler(() => handleCreate);
-    }
+    setProjectCreateHandler?.(() => handleCreate);
     return () => {
-      if (setProjectCreateHandler) {
-        setProjectCreateHandler(null);
-      }
+      setProjectCreateHandler?.(null);
     };
   }, [setProjectCreateHandler]);
 
