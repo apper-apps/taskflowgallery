@@ -34,12 +34,19 @@ const { searchQuery, setProjectCreateHandler } = useOutletContext();
     } finally {
       setLoading(false);
     }
-  };
+};
 
   useEffect(() => {
     loadProjects();
   }, []);
 
+  // Expose handleCreate function to Layout for header button
+  useEffect(() => {
+    setProjectCreateHandler?.(() => handleCreate);
+    return () => {
+      setProjectCreateHandler?.(null);
+    };
+  }, [setProjectCreateHandler]);
   // Filter projects based on search query
   const filteredProjects = useMemo(() => {
     if (!searchQuery) return projects;
@@ -110,14 +117,6 @@ const { searchQuery, setProjectCreateHandler } = useOutletContext();
       />
     );
   }
-// Expose handleCreate function to Layout for header button
-  useEffect(() => {
-    setProjectCreateHandler?.(() => handleCreate);
-    return () => {
-      setProjectCreateHandler?.(null);
-    };
-  }, [setProjectCreateHandler]);
-
   return (
     <div className="space-y-6">
       {/* Header Actions */}
