@@ -1,16 +1,16 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useOutletContext } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-import { format } from 'date-fns';
-import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/Input';
-import Textarea from '@/components/atoms/Textarea';
-import Loading from '@/components/ui/Loading';
-import Error from '@/components/ui/Error';
-import Empty from '@/components/ui/Empty';
-import ApperIcon from '@/components/ApperIcon';
-import { projectService } from '@/services/api/projectService';
+import React, { useEffect, useMemo, useState } from "react";
+import { useOutletContext } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { toast } from "react-toastify";
+import { format } from "date-fns";
+import { projectService } from "@/services/api/projectService";
+import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
+import Input from "@/components/atoms/Input";
+import Textarea from "@/components/atoms/Textarea";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
+import Error from "@/components/ui/Error";
 
 const ProjectsView = () => {
   const { searchQuery } = useOutletContext();
@@ -317,9 +317,8 @@ try {
 
   if (!isOpen) return null;
 
-  return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -410,11 +409,10 @@ try {
                 )}
               </Button>
             </div>
-          </form>
+</form>
         </motion.div>
       </div>
-    </AnimatePresence>
-  );
+    );
 };
 
 export default ProjectsView;
