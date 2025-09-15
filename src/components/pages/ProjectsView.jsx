@@ -235,10 +235,10 @@ const ProjectModal = ({ isOpen, onClose, project = null, onSave }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
 
-  useEffect(() => {
+useEffect(() => {
     if (project) {
       setFormData({
-        name: project.name || '',
+        name: project.projectName || project.name || '',
         description: project.description || '',
         startDate: project.startDate ? format(new Date(project.startDate), 'yyyy-MM-dd') : '',
         endDate: project.endDate ? format(new Date(project.endDate), 'yyyy-MM-dd') : '',
@@ -282,9 +282,10 @@ const ProjectModal = ({ isOpen, onClose, project = null, onSave }) => {
 
     setIsSubmitting(true);
     
-    try {
+try {
       const projectData = {
-        ...formData,
+        projectName: formData.name,
+        description: formData.description,
         startDate: formData.startDate || null,
         endDate: formData.endDate || null,
       };
