@@ -13,7 +13,7 @@ import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 
 const ProjectsView = () => {
-  const { searchQuery } = useOutletContext();
+const { searchQuery, setProjectCreateHandler } = useOutletContext();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -110,6 +110,17 @@ const ProjectsView = () => {
       />
     );
   }
+// Expose handleCreate function to Layout for header button
+  useEffect(() => {
+    if (setProjectCreateHandler) {
+      setProjectCreateHandler(() => handleCreate);
+    }
+    return () => {
+      if (setProjectCreateHandler) {
+        setProjectCreateHandler(null);
+      }
+    };
+  }, [setProjectCreateHandler]);
 
   return (
     <div className="space-y-6">

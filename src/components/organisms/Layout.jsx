@@ -9,7 +9,8 @@ import { useCategories } from '@/hooks/useCategories';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [projectCreateHandler, setProjectCreateHandler] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTask, setSelectedTask] = useState(null);
 
@@ -61,9 +62,14 @@ const Layout = () => {
 
   const handleTaskEdit = (task) => {
     setSelectedTask(task);
-    setIsTaskModalOpen(true);
+setIsTaskModalOpen(true);
   };
 
+  const handleAddProject = () => {
+    if (projectCreateHandler) {
+      projectCreateHandler();
+    }
+  };
   const handleTaskModalClose = () => {
     setIsTaskModalOpen(false);
     setSelectedTask(null);
@@ -77,11 +83,12 @@ const Layout = () => {
         stats={stats}
       />
       
-      <div className="flex-1 flex flex-col min-w-0">
+<div className="flex-1 flex flex-col min-w-0">
         <Header 
           onSearch={setSearchQuery}
           onQuickAdd={handleQuickAdd}
           onMenuToggle={() => setIsSidebarOpen(true)}
+          onAddProject={handleAddProject}
         />
         
         <main className="flex-1 overflow-auto">
@@ -91,10 +98,11 @@ const Layout = () => {
             transition={{ duration: 0.3 }}
             className="p-6"
           >
-            <Outlet context={{ 
+<Outlet context={{ 
               searchQuery, 
               onTaskEdit: handleTaskEdit,
-              stats 
+              stats,
+              setProjectCreateHandler
             }} />
           </motion.div>
         </main>

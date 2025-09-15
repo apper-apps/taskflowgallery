@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import SearchBar from '@/components/molecules/SearchBar';
-import Button from '@/components/atoms/Button';
-import ApperIcon from '@/components/ApperIcon';
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import ApperIcon from "@/components/ApperIcon";
+import SearchBar from "@/components/molecules/SearchBar";
+import Button from "@/components/atoms/Button";
 
-const Header = ({ onSearch, onQuickAdd, onMenuToggle }) => {
+const Header = ({ onSearch, onQuickAdd, onMenuToggle, onAddProject }) => {
   const location = useLocation();
   const [searchValue, setSearchValue] = useState('');
 
@@ -57,28 +57,40 @@ switch (location.pathname) {
               })}
             </p>
           </div>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="hidden md:block">
-            <SearchBar
-              placeholder="Search tasks..."
-              onSearch={handleSearch}
-              className="w-80"
-            />
-          </div>
-          
-          <Button
-            onClick={onQuickAdd}
+</div>
+      
+      <div className="flex items-center gap-4">
+        {location.pathname === '/projects' && onAddProject && (
+          <Button 
+            onClick={onAddProject}
             variant="primary"
-            size="md"
-            className="hover-lift"
+            size="sm"
+            className="flex items-center gap-2"
           >
             <ApperIcon name="Plus" size={16} />
-            <span className="hidden sm:inline">Add Task</span>
-          </Button>
+            Add Project
+</Button>
+        )}
+        
+        <div className="hidden md:block">
+          <SearchBar
+            placeholder="Search tasks..."
+            onSearch={handleSearch}
+            className="w-80"
+          />
         </div>
+        
+        <Button
+          onClick={onQuickAdd}
+          variant="primary"
+          size="md"
+          className="hover-lift"
+        >
+          <ApperIcon name="Plus" size={16} />
+          <span className="hidden sm:inline">Add Task</span>
+        </Button>
       </div>
+    </div>
 
       {/* Mobile search */}
       <div className="md:hidden mt-4">
