@@ -197,9 +197,9 @@ const SubTaskModal = ({ isOpen, onClose, subtask = null }) => {
                   onChange={(e) => handleChange('taskId', e.target.value)}
                 >
                   <option value="">Select a task (optional)</option>
-                  {tasks.map(task => (
+{tasks.map(task => (
                     <option key={task.Id} value={task.Id}>
-                      {task.title}
+                      {task.Name}
                     </option>
                   ))}
                 </Select>
@@ -210,9 +210,9 @@ const SubTaskModal = ({ isOpen, onClose, subtask = null }) => {
                   onChange={(e) => handleChange('projectId', e.target.value)}
                 >
                   <option value="">Select a project (optional)</option>
-                  {projects.map(project => (
+{projects.map(project => (
                     <option key={project.Id} value={project.Id}>
-                      {project.name}
+                      {project.Name}
                     </option>
                   ))}
                 </Select>
